@@ -92,7 +92,7 @@ function stopStreaming() {
 }
 
 function captureSnapshot() {
-
+alert("am inside captureSnapshot app practical js");
   if( null != cameraStream ) {
     var ctx = capture.getContext( '2d' );
     var img = new Image();

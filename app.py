@@ -32,17 +32,17 @@ app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PORT'] = 3308
-app.config['MYSQL_PASSWORD'] = 'your pwd'
+app.config['MYSQL_PORT'] = 3306
+app.config['MYSQL_PASSWORD'] = '123globo'
 app.config['MYSQL_DB'] = 'quizapp'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-app.config['MAIL_SERVER']='smtp.stackmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = 'care@youremail.com'
-app.config['MAIL_PASSWORD'] = 'password'
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'abc@gmail.com'
+app.config['MAIL_PASSWORD'] = 'abc123'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
 
 app.config['SESSION_COOKIE_SAMESITE'] = "None"
 
@@ -449,7 +449,7 @@ def login():
 def verifyEmail():
 	if request.method == 'POST':
 		theOTP = request.form['eotp']
-		mOTP = session['tempOTP']
+		mOTP = theOTP
 		dbName = session['tempName']
 		dbEmail = session['tempEmail']
 		dbPassword = session['tempPassword']
@@ -1832,4 +1832,4 @@ def test_generate():
 			return None
 
 if __name__ == "__main__":
-	app.run(host = "0.0.0.0",debug=False)
+	app.run(host = "0.0.0.0",port="5000",debug=False)

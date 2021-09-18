@@ -2,9 +2,6 @@ node_modules/
 dist/
 html&css/
 .temp/
-css/
-*.zip
-models/yolov3.weights
 __MACOSX/
 assets/
 src/
@@ -12,9 +9,6 @@ questions/
 volt/
 gulpfile.js
 coco models/
-eye_tracking/
-face_detection/
-gaze_tracking
 flask_session
 out/
 static/html/

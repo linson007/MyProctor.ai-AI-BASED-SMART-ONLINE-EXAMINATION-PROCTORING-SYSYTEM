@@ -92,7 +92,7 @@ window.onfocus = function(event) {
   }
   
   function captureSnapshot() {
-  
+  alert("am inside captureSnapshot app subjective js");
     if( null != cameraStream ) {
       var ctx = capture.getContext( '2d' );
       var img = new Image();

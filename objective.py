@@ -106,6 +106,13 @@ class ObjectiveTest:
         return similar_words
 
     def generate_test(self):
+        question = list()
+        answer = list()
+        question.append("orange")
+        answer.append("orange")
+        return question, answer
+
+    def generate_test_old(self):
         trivial_pair = self.get_trivial_sentences()
         question_answer = list()
         for que_ans_dict in trivial_pair:

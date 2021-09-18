@@ -39,6 +39,7 @@ window.onfocus = function(event) {
     navigator.mozGetUserMedia;
 
     if( mediaSupport && null == cameraStream ) {
+       console.log("inside media Support camera Stream")
       navigator.mediaDevices.getUserMedia( { video: true, audio: true } )
       .then( function( mediaStream ) {
         cameraStream = mediaStream;
@@ -88,28 +89,36 @@ window.onfocus = function(event) {
   }
   
   function captureSnapshot() {
-  
+  //alert("am inside captureSnapshot app js");
     if( null != cameraStream ) {
       var ctx = capture.getContext( '2d' );
       var img = new Image();
       ctx.drawImage( stream, 0, 0, capture.width, capture.height );
       img.src = capture.toDataURL( "image/png" );
       img.width	= 340;
+      //img.width	= 680;
       var d1 = capture.toDataURL("image/png");
       var res = d1.replace("data:image/png;base64,", "");
 
-        var average = values / length;
-
-        console.log(average)
-        console.log(Math.round(average - 40));
+        //var average = values / length;
+        var average = 100;
+        console.log("average",average);
+        console.log("math",Math.round(average - 40));
 
         if(average)
         {
+            console.log("inside average");
             $.post("/video_feed",{
                 data : {'imgData':res,'voice_db':average,'testid': tid}},
                 function(data){
                 console.log(data);
-                });
+                })
+                .done(function (returnval) {
+            console.log(returnval);
+            //setTimeout( function() { top.location.href="view.php" }, 3000 );
+        });
+        }else{
+        console.log("inside average else ");
         }
 
       } 

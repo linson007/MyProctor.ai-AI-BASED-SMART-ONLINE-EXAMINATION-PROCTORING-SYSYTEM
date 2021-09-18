@@ -6,7 +6,9 @@ import cv2
 import base64
 from PIL import Image
 from io import BytesIO   
-from gaze_tracking import GazeTracking
+from gaze_tracking.gaze_tracking import GazeTracking
+from gaze_tracking.gaze_tracking import GazeTracking
+#from gaze_tracking import GazeTracking
 from tensorflow.keras import Model
 from tensorflow.keras.layers import (
     Add,
@@ -297,6 +299,35 @@ landmark_model = get_landmark_model()
 def get_frame(imgData):
     nparr = np.frombuffer(base64.b64decode(imgData), np.uint8)
     image = cv2.imdecode(nparr, cv2.COLOR_BGR2GRAY)
+
+    """
+    gaze.refresh(image)
+
+    frame = gaze.annotated_frame()
+    ret, jpeg = cv2.imencode('.jpg', frame)
+    jpg_as_text = base64.b64encode(jpeg)
+    print(jpg_as_text)
+    eye_movements = ""
+    print("left pupil",gaze.pupil_left_coords())
+
+    if gaze.is_blinking():
+        eye_movements = 1
+        print("Blinking")
+    elif gaze.is_right():
+        eye_movements = 4
+        print("Looking right")
+    elif gaze.is_left():
+        eye_movements = 3
+        print("Looking left")
+    elif gaze.is_center():
+        eye_movements = 2
+        print("Looking center")
+    else:
+        eye_movements = 0
+        print("Not found!")
+    print(eye_movements)
+
+    """
     ret = True
 
     size = image.shape
@@ -351,8 +382,8 @@ def get_frame(imgData):
 
     image = draw_outputs(image, (boxes, scores, classes, nums), class_names)
             
-    user_move1=""
-    user_move2=""
+    user_move1="-1"
+    user_move2="-1"
     if ret == True:
         faces = find_faces(image, face_model)
         for face in faces:
@@ -410,11 +441,16 @@ def get_frame(imgData):
        
     ret, jpeg = cv2.imencode('.jpg', image)
     jpg_as_text = base64.b64encode(jpeg)
+    #print(jpg_as_text)
 
     gaze.refresh(image)
 
     frame = gaze.annotated_frame()
+    ret, jpeg = cv2.imencode('.jpg', frame)
+    jpg_as_text = base64.b64encode(jpeg)
+    print(jpg_as_text)
     eye_movements = ""
+    print("left pupil",gaze.pupil_left_coords())
 
     if gaze.is_blinking():
         eye_movements = 1
