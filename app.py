@@ -135,6 +135,59 @@ def video_feed():
 		else:
 			return "error in video"
 
+@app.route('/video_feed_orell', methods=['GET','POST'])
+def video_feed_orell():
+	if request.method == "POST":
+		print("inside video feed")
+		imgData = request.form['data[imgData]']
+		email = request.form['data[email]']
+		name = request.form['data[name]']
+		uid = request.form['data[uid]']
+		#print(imgData)
+		testid = request.form['data[testid]']
+		#voice_db = request.form['data[voice_db]']
+		proctorData = camera.get_frame(imgData)
+		voice_db = "1"
+		jpg_as_text = proctorData['jpg_as_text']
+		mob_status =proctorData['mob_status']
+		person_status = proctorData['person_status']
+		user_move1 = proctorData['user_move1']
+		user_move2 = proctorData['user_move2']
+		eye_movements = proctorData['eye_movements']
+		cur = mysql.connection.cursor()
+		results = cur.execute('INSERT INTO proctoring_log (email, name, test_id, voice_db, img_log, user_movements_updown, user_movements_lr, user_movements_eyes, phone_detection, person_status, uid) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+			(email, name, testid, voice_db, jpg_as_text, user_move1, user_move2, eye_movements, mob_status, person_status,uid))
+		mysql.connection.commit()
+		cur.close()
+		if(results > 0):
+			#return "{'img':'"+jpg_as_text.decode()+"','person':"+person_status+"}"
+			return "{\"img\":\"" + jpg_as_text.decode() + "\",\"person\":\""+str(person_status)+"\",\"mob_status\":\""+str(mob_status)+"\",\"user_move1\":\""+str(user_move1)+"\",\"user_move2\":\""+str(user_move2)+"\",\"eye_movement\":\""+str(eye_movements)+"\"}"
+		else:
+			return "error in video"
+@app.route('/auth_face_orell', methods=['GET','POST'])
+def auth_face_orell():
+	if request.method == "POST":
+		print("inside auth_face_orell")
+		imgdata1 = request.form['data[imgdata1]']
+		imgdata2 = request.form['data[imgdata2]']
+		nparr1 = np.frombuffer(base64.b64decode(imgdata1), np.uint8)
+		nparr2 = np.frombuffer(base64.b64decode(imgdata2), np.uint8)
+		image1 = cv2.imdecode(nparr1, cv2.COLOR_BGR2GRAY)
+		image2 = cv2.imdecode(nparr2, cv2.COLOR_BGR2GRAY)
+		print("image1")
+		print("")
+		#print(image1)
+		print("")
+		print("image2")
+		print("")
+		print("")
+		#print(image2)
+		print("")
+		img_result = DeepFace.verify(image1, image2, enforce_detection=False)
+		if img_result["verified"] == True:
+			return "match"
+		else:
+			return "not matching"
 @app.route('/window_event', methods=['GET','POST'])
 @user_role_student
 def window_event():
