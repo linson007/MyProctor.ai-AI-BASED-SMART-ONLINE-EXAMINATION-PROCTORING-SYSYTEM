@@ -154,16 +154,16 @@ def video_feed_orell():
 		user_move1 = proctorData['user_move1']
 		user_move2 = proctorData['user_move2']
 		eye_movements = proctorData['eye_movements']
-		cur = mysql.connection.cursor()
-		results = cur.execute('INSERT INTO proctoring_log (email, name, test_id, voice_db, img_log, user_movements_updown, user_movements_lr, user_movements_eyes, phone_detection, person_status, uid) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
-			(email, name, testid, voice_db, jpg_as_text, user_move1, user_move2, eye_movements, mob_status, person_status,uid))
-		mysql.connection.commit()
-		cur.close()
-		if(results > 0):
+		#cur = mysql.connection.cursor()
+		#results = cur.execute('INSERT INTO proctoring_log (email, name, test_id, voice_db, img_log, user_movements_updown, user_movements_lr, user_movements_eyes, phone_detection, person_status, uid) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+			#(email, name, testid, voice_db, jpg_as_text, user_move1, user_move2, eye_movements, mob_status, person_status,uid))
+		#mysql.connection.commit()
+		#cur.close()
+		#if(results > 0):
 			#return "{'img':'"+jpg_as_text.decode()+"','person':"+person_status+"}"
-			return "{\"img\":\"" + jpg_as_text.decode() + "\",\"person\":\""+str(person_status)+"\",\"mob_status\":\""+str(mob_status)+"\",\"user_move1\":\""+str(user_move1)+"\",\"user_move2\":\""+str(user_move2)+"\",\"eye_movement\":\""+str(eye_movements)+"\"}"
-		else:
-			return "error in video"
+		return "{\"img\":\"" + jpg_as_text.decode() + "\",\"person\":\""+str(person_status)+"\",\"mob_status\":\""+str(mob_status)+"\",\"user_move1\":\""+str(user_move1)+"\",\"user_move2\":\""+str(user_move2)+"\",\"eye_movement\":\""+str(eye_movements)+"\"}"
+		#else:
+			#return "error in video"
 @app.route('/auth_face_orell', methods=['GET','POST'])
 def auth_face_orell():
 	if request.method == "POST":
